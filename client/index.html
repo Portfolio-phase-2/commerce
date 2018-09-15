@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Title of the document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script> const url = 'http://localhost:3000'; </script>
+
+</head>
+
+<body>
+    <div id="app">
+        <navbar-header :status="isLogin"></navbar-header>
+        
+        <main class="container">
+            <div class="row">
+                <div class="col m3 l3">
+                    <category-product ></category-product>
+                </div>
+                <div class="col m9 l9">
+                    <product-list v-for="(product, i) in products" :data="product" :key="i" :status="isLogin"></product-list>
+                </div>
+            </div>
+        </main>
+        <footer class="page-footer indigo">
+                <div class="container">
+                    <small>&copy; 2018 - by <a href="https://talkasrul.com" class="yellow-text">Asrul Harahap</a></small>
+                </div>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="assets/js/template.js"></script>
+    <script src="components/product/Product.js"></script>
+    <script src="components/category/Category.js"></script>
+    <script src="components/navbar/NavbarHeader.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
