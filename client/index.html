@@ -11,18 +11,19 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.core.js"></script>
     <script> const url = 'http://localhost:3000'; </script>
 
 </head>
 
 <body>
     <div id="app">
-        <navbar-header :status="isLogin"></navbar-header>
-        
+        <navbar-header :status="isLogin" :cart="cart"></navbar-header>
         <main class="container">
             <div class="row">
                 <div class="col m3 l3">
-                    <category-product ></category-product>
+                    <search-product @x="keyup=$event"></search-product>
+                    <category-product @r="categoryin"></category-product>
                 </div>
                 <div class="col m9 l9">
                     <product-list v-for="(product, i) in products" :data="product" :key="i" :status="isLogin"></product-list>
@@ -40,6 +41,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="assets/js/template.js"></script>
+    <script src="components/product/search.js"></script>
     <script src="components/product/Product.js"></script>
     <script src="components/category/Category.js"></script>
     <script src="components/navbar/NavbarHeader.js"></script>

@@ -3,7 +3,7 @@ let categoryComponent = `
     <li class="collection-item center indigo white-text">Category</li>
     <li class="collection-item"> <a href="#">All Category</a> </li>
     <li class="collection-item" v-for="(category, i) in categories" :key="i">
-        <a href="#" > {{category.name}} </a> </li>
+        <a href="#" @click="searchCategory(category._id)"> {{category.name}} </a> </li>
 </ul>
 `
 
@@ -17,6 +17,9 @@ Vue.component('category-product', {
         }
     },
     methods: {
+        searchCategory(id){
+            this.$emit('r',id)
+        },
         getCategory() {
             axios({
                 url: url+`/category`,

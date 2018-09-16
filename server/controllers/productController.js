@@ -37,6 +37,18 @@ module.exports = {
 		.then((response) => res.status(200).json(response))
         .catch((err) => res.status(500).json(err))
 	},
+
+	searchProductByCategory: (req, res) => {
+		Product.find({category: req.params.id})
+		.then((response) => res.status(200).json(response))
+        .catch((err) => res.status(500).json(err))
+	}, 
+
+	searchProductByName: (req, res) => {
+		Product.find({name: { $regex: req.params.search, $options: 'i' } })
+		.then((response) => res.status(200).json(response))
+        .catch((err) => res.status(500).json(err))
+	},
 	
 	// category management
 	addCategory: (req, res) => {
@@ -60,11 +72,7 @@ module.exports = {
 	addToCart: (req, res) => {
 		let userId = req.decoded.id
 		let updateData = {
-			$push: {cart: req.body.order._id},
-			updatedAt: new Date()
-		}
-		let updateorder = {
-			stock: req.body.order.stock - 1,
+			$push: {cart: req.body.orderid},
 			updatedAt: new Date()
 		}
 		User.findOneAndUpdate({_id: userId}, updateData)
@@ -72,15 +80,24 @@ module.exports = {
 			if(user === null) {
                 res.status(500).json('user not found')
             } else {
-                Product.findOneAndUpdate({_id: req.body.order._id}, updateorder)
-                .then((order) => {
-                    if(order===null){
-                        res.status(500).json('order not found')
-                    } else {
-                        res.status(500).json({order, user})
-                    }
-                })
-                .catch((err) => res.status(500).json(err))
+                res.status(201).json("success to add cart")
+            }
+        })
+        .catch((err) => res.status(500).json(err))   
+	},
+	
+	removefromCart: (req, res) => {
+		let userId = req.decoded.id
+		let updateData = {
+			$pull: {cart: req.body.orderid},
+			updatedAt: new Date()
+		}
+		User.findOneAndUpdate({_id: userId}, updateData)
+		.then((user) => {
+			if(user === null) {
+                res.status(500).json('user not found')
+            } else {
+                res.status(201).json("success to remove from cart")
             }
         })
         .catch((err) => res.status(500).json(err))   

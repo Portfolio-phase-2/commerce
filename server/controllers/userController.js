@@ -44,6 +44,7 @@ module.exports      = {
 
     getOne: (req, res) => {
         User.findById({_id: req.decoded.id})
+        .populate('cart')
         .then( response => res.status(200).json(response))
         .catch( err => res.status(500).json(err))
     }

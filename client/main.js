@@ -2,7 +2,9 @@ var app = new Vue({
     el: '#app',
     data: {
         isLogin: false,
-        products: []
+        products: [],
+        cart: [],
+        keyup : ""
     },
     methods: {
         checkLogin() {
@@ -22,15 +24,45 @@ var app = new Vue({
                 this.products = found.data
             })
             .catch(err=> console.log(err))
+        },
+        addTocart(product) {
+            this.cart.push(product)
+        },
+        getCart() {
+            axios({
+                url: url+`/cart`,
+                method: 'get',
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then( found => {
+                this.cart = found.data.cart
+            })
+            .catch( err => console.log(err))
+        }, 
+        categoryin(id) {
+            alert('masuk')
         }
     },
     mounted() {
         this.checkLogin()
         this.getAllProducts()
+        this.getCart()
     },
     watch: {
         isLogin() {
             this.checkLogin()
+        },
+        keyup() {
+            axios({
+                url: url+`/products/${this.keyup}`,
+                method: 'get'
+            })
+            .then( found => {
+                this.products = found.data
+            })
+            .catch(err=> console.log(err))
         }
     }
 })

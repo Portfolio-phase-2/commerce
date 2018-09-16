@@ -6,7 +6,8 @@ let navbarComponent = `
                 <a href="#" class="brand-logo"> {{titleApp}} </a>
                 <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="#"> <i class="material-icons">add</i> </a></li>
+                    <li> {{cart.length}} </li>
+                    <li> <a class="modal-trigger" href="#modalCart"> <i class="material-icons">shopping_cart</i> </a></li>
                     <li v-if="!status"><a class="waves-effect waves-light modal-trigger" href="#modalSignin"> Sign In </a></li>
                     <li v-else><a class="waves-effect waves-lightr" href="#" @click="doLogout"> Sign Out </a></li>
                 </ul>
@@ -14,9 +15,9 @@ let navbarComponent = `
                     <li>
                         <div class="userView">
                             <div class="background">
-                                <img src="http://lorempixel.com/output/abstract-q-c-640-480-10.jpg" alt="Background Sidenav">
+                                <img src="#" alt="Background Sidenav">
                             </div>
-                            <a href="#!user"><img class="circle" src="http://lorempixel.com/output/people-q-c-640-480-9.jpg"
+                            <a href="#!user"><img class="circle" src="#"
                                     alt="User Image Sidenav"></a>
                             <a href="#!name"><span class="white-text name">Asrul Harahap</span></a>
                             <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
@@ -29,7 +30,7 @@ let navbarComponent = `
         </div>
     </nav>
 
-    <!-- Modal Structure -->
+    <!-- Modal Login -->
     <div id="modalSignin" class="modal">
         <div class="modal-content">
             <h5 class="indigo-text center">Login User</h5>
@@ -49,16 +50,68 @@ let navbarComponent = `
         </div>
     </div>
 
+    <!-- Modal Cart -->
+    <div id="modalCart" class="modal">
+        <div class="modal-content">
+            <h5 class="indigo-text center">Your Cart</h5>
+            <table class="highlight">
+                <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Item Price</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="cart in cart">
+                    <td>{{cart.name}}</td>
+                    <td>Rp.{{cart.price}}</td>
+                    <td><a href="#" @click="removeCart(cart._id)">Remove</a></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <th><a class="btn modal-action modal-close modal-trigger" href="#modalCheckOut">Checkout</a></th>
+                </tr>
+                </tbody>
+            </table>
+                    
+        </div>
+    </div>
+
+    <!-- Modal Cart -->
+    <div id="modalCheckOut" class="modal">
+        <div class="modal-content">
+            <h5 class="indigo-text center">CheckOut</h5>
+            <form>
+                ini belum selesai
+            </form>
+            <div class="row">
+    <div class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">textsms</i>
+          <input type="text" id="autocomplete-input" class="autocomplete">
+          <label for="autocomplete-input">Autocomplete</label>
+        </div>
+      </div>
+    </div>
+  </div>
+            </form>                    
+        </div>
+    </div>
+
 </header>
 `
 
 Vue.component('navbar-header', {
-    props: ['status'],
+    props: ['status', 'cart'],
     data() {
         return {
-            titleApp: 'victoryShop',
+            titleApp: 'uniqShop',
             email: '',
-            password: ''
+            password: '',
+            total: 0
         }
     },
     methods: {
@@ -80,6 +133,19 @@ Vue.component('navbar-header', {
                 window.location = '/'
             })
             .catch( err => console.log(err))
+        }, 
+        removeCart(id) {
+            axios({
+                url: url+`/cart`,
+                method: 'put',
+                data: {
+                    orderid: id
+                }, 
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then( found => console.log(this.$parent.getCart()))
         }
     },
     watch: {

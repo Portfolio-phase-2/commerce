@@ -8,12 +8,11 @@ let productComponent = `
         <div class="card-content">
             <i class="material-icons tiny">money</i> Rp.{{data.price}} <br />
             <i class="material-icons tiny">tag</i> {{data.category.name}} <br />
-            <i class="material-icons tiny">widgets</i> {{data.stock}} items
         </div>
 
         <div class="card-action">
-            <a href="/auth.html" v-if="!status">Signin to Buy</a>
-            <a href="#" v-else>Add To Cart</a>
+            <a class="modal-trigger" href="#modalSignin" v-if="!status">Signin to Buy</a>
+            <a href="#" v-else @click="addToCart(data._id, data.name, data.price)">Add To Cart</a>
         </div>
     </div>
 </div>
@@ -21,11 +20,20 @@ let productComponent = `
 
 Vue.component('product-list', {
     props: ['data', 'status'],
-    data() {
-        return {
-        }
-    },
     methods: {
+        addToCart(product) {
+            axios({
+                url: url+`/cart`,
+                method: 'post',
+                data: {
+                    orderid: product
+                }, 
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then( found => console.log(this.$parent.getCart()))
+        }
     },
     template: productComponent,
 })
