@@ -83,21 +83,7 @@ let navbarComponent = `
     <div id="modalCheckOut" class="modal">
         <div class="modal-content">
             <h5 class="indigo-text center">CheckOut</h5>
-            <form>
-                ini belum selesai
-            </form>
-            <div class="row">
-    <div class="col s12">
-      <div class="row">
-        <div class="input-field col s12">
-          <i class="material-icons prefix">textsms</i>
-          <input type="text" id="autocomplete-input" class="autocomplete">
-          <label for="autocomplete-input">Autocomplete</label>
-        </div>
-      </div>
-    </div>
-  </div>
-            </form>                    
+            <h5> Thanks for transaction</h5>                   
         </div>
     </div>
 

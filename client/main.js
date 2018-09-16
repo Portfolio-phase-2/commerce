@@ -42,7 +42,14 @@ var app = new Vue({
             .catch( err => console.log(err))
         }, 
         categoryin(id) {
-            alert('masuk')
+            axios({
+                url: url+`/products/${id}/products`,
+                method: 'get'
+            })
+            .then( found => {
+                this.products = found.data
+            })
+            .catch(err=> console.log(err))
         }
     },
     mounted() {

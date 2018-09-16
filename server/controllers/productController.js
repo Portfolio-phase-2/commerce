@@ -39,13 +39,15 @@ module.exports = {
 	},
 
 	searchProductByCategory: (req, res) => {
-		Product.find({category: req.params.id})
+		Product.find({category: req.params.category})
+		.populate('category')
 		.then((response) => res.status(200).json(response))
         .catch((err) => res.status(500).json(err))
 	}, 
 
 	searchProductByName: (req, res) => {
 		Product.find({name: { $regex: req.params.search, $options: 'i' } })
+		.populate('category')
 		.then((response) => res.status(200).json(response))
         .catch((err) => res.status(500).json(err))
 	},
